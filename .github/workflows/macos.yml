@@ -1,17 +1,166 @@
-name: macOS Test
+name: macOS Appium Environment
 
 on:
   workflow_dispatch:
 
 jobs:
-  test:
+  macos-environment:
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Check macOS
-        run: sw_vers
+      ############################################################
+      # macOS Information
+      ############################################################
 
-      - name: Check Python
-        run: python3 --version
+      - name: macOS Version
+        run: |
+          echo "===== macOS Version ====="
+          sw_vers
+
+      ############################################################
+      # Xcode
+      ############################################################
+
+      - name: Xcode Version
+        run: |
+          echo "===== Xcode ====="
+          xcode-select -p
+          xcodebuild -version
+
+      ############################################################
+      # Python
+      ############################################################
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Python Version
+        run: |
+          echo "===== Python ====="
+          python3 --version
+          pip3 --version
+
+      ############################################################
+      # Install Python Dependencies
+      ############################################################
+
+      - name: Install Python Packages
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install Appium-Python-Client
+          pip3 list
+
+      ############################################################
+      # Node.js
+      ############################################################
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Node Version
+        run: |
+          echo "===== Node ====="
+          node --version
+          npm --version
+
+      ############################################################
+      # Install Appium 2
+      ############################################################
+
+      - name: Install Appium
+        run: |
+          npm install -g appium
+          appium driver list
+          appium --version
+
+      ############################################################
+      # Java
+      ############################################################
+
+      - name: Java Version
+        run: |
+          echo "===== Java ====="
+          java -version
+
+      ############################################################
+      # Ruby
+      ############################################################
+
+      - name: Ruby Version
+        run: |
+          echo "===== Ruby ====="
+          ruby --version
+
+      ############################################################
+      # CocoaPods
+      ############################################################
+
+      - name: CocoaPods
+        run: |
+          echo "===== CocoaPods ====="
+          if command -v pod >/dev/null 2>&1; then
+            pod --version
+          else
+            echo "CocoaPods not installed."
+          fi
+
+      ############################################################
+      # Homebrew
+      ############################################################
+
+      - name: Homebrew
+        run: |
+          echo "===== Homebrew ====="
+          brew --version
+
+      ############################################################
+      # iOS Simulators
+      ############################################################
+
+      - name: Available Simulators
+        run: |
+          echo "===== iOS Simulators ====="
+          xcrun simctl list devices
+
+      ############################################################
+      # Connected Devices
+      ############################################################
+
+      - name: Connected Devices
+        run: |
+          echo "===== Connected Devices ====="
+          xcrun xctrace list devices
+
+      ############################################################
+      # System Information
+      ############################################################
+
+      - name: Environment Information
+        run: |
+          echo "===== PATH ====="
+          echo $PATH
+
+          echo ""
+          echo "===== Disk ====="
+          df -h
+
+          echo ""
+          echo "===== Memory ====="
+          vm_stat
+
+      ############################################################
+      # Finished
+      ############################################################
+
+      - name: Finished
+        run: |
+          echo "=========================================="
+          echo "Environment setup completed successfully."
+          echo "=========================================="
