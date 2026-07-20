@@ -1,0 +1,17 @@
+name: macOS Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check macOS
+        run: sw_vers
+
+      - name: Check Python
+        run: python3 --version
