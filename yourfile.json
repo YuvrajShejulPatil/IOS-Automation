@@ -1,0 +1,11 @@
+{
+    "deviceName": "BU4PKJY965CEDYOV",
+    "udid": "BU4PKJY965CEDYOV",
+    "platformVersion": "12",
+    "platformName": "Android",
+    "automationName": "UiAutomator2",
+    "appPackage": "com.tatamotors.oneapp",
+    "appActivity": "com.tatamotors.oneapp/.ui.splash.SplashActivity",
+    "autoGrantPermissions": true,
+    "noReset": true
+}
